@@ -1,4 +1,4 @@
-import boom3k.zip3kUtil;
+import boom3k.ZipTool;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.lingala.zip4j.exception.ZipException;
@@ -13,7 +13,7 @@ public class Tests {
     public void zipperTest() throws ZipException {
         String sourceZipFilePath = "encryptedFile";
         String password = "deezinyoutees";
-        Map<String, InputStream> inputStreamMap = zip3kUtil.getAllInputStreamsInSize(sourceZipFilePath, password);
+        Map<String, InputStream> inputStreamMap = ZipTool.getAllInputStreamsInSize(sourceZipFilePath, password);
         JsonObject encryptedFile = (JsonObject) new JsonParser().parse(new InputStreamReader(inputStreamMap.get("encryptedFile.json")));
         System.out.println(encryptedFile.get("type").toString().replace("\"",""));
     }
