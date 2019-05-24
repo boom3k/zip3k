@@ -1,4 +1,4 @@
-/**
+package boom3k; /**
  * Zip4j documentation
  * http://javadox.com/net.lingala.zip4j/zip4j/1.3.1/net/lingala/zip4j/core/ZipFile.html
  */
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Main {
+public class zip3kUtil {
     /**
      * @param filePath Path where the zipped files should be placed
      * @param password Password that will be used to encrypt the files
