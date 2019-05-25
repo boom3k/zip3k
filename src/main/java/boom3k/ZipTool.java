@@ -17,13 +17,13 @@ import java.util.List;
 import java.util.Map;
 
  public class ZipTool {
-
+     
      /**
      * @param filePath Path where the zipped files should be placed
      * @param password Password that will be used to encrypt the files
      * @param files    List of file objects to zip
      */
-     static void zipFile(String filePath, List<File> files, String password) throws ZipException {
+     public static void zipFile(String filePath, List<File> files, String password) throws ZipException {
         final String EXTENSION = "zip";
         ZipParameters zipParameters = getZipParameters(password);
         String baseFileName = new File(filePath).getName();
@@ -39,7 +39,7 @@ import java.util.Map;
         });
     }
 
-     static void zipFile(String filePath, File file, String password) throws ZipException {
+     public static void zipFile(String filePath, File file, String password) throws ZipException {
         ArrayList<File> files = new ArrayList<>();
         zipFile(filePath, files, password);
     }
@@ -70,7 +70,7 @@ import java.util.Map;
      * @param password          Password that will decrypt the source Zip file
      * @return Hashmap, Key:String(FileName), Value:BufferedReader(Data used for Input/Output streams)
      */
-     static Map<String, InputStream> getAllInputStreamsInSize(String sourceZipFilePath, String password) throws ZipException {
+     public static Map<String, InputStream> getAllInputStreamsInSize(String sourceZipFilePath, String password) throws ZipException {
         Map<String, InputStream> readerMap = new HashMap<>();
         ZipFile zipFile = getZipFile(sourceZipFilePath, password);
         List<FileHeader> fileHeaderList = zipFile.getFileHeaders();
@@ -163,7 +163,7 @@ import java.util.Map;
      * @param extractedZipFilePath Path where the unzipped files should be placed
      * @param password             Password that will decrypt the source Zip file
      */
-     static void unzipFile(String sourceZipFilePath, String extractedZipFilePath, String password) throws ZipException {
+     public static void unzipFile(String sourceZipFilePath, String extractedZipFilePath, String password) throws ZipException {
         final String EXTENSION = "zip";
         ZipFile zipFile = new ZipFile(sourceZipFilePath + "." + EXTENSION);
 
@@ -174,7 +174,7 @@ import java.util.Map;
         zipFile.extractAll(extractedZipFilePath);
     }
 
-     static void insertFileToZip(String sourceZipFilePath, File file, String password) throws ZipException {
+     public static void insertFileToZip(String sourceZipFilePath, File file, String password) throws ZipException {
         ZipFile zipFile = getZipFile(sourceZipFilePath, password);
         zipFile.addFile(file, getZipParameters(password));
     }
