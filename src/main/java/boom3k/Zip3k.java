@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
- public class ZipTool {
+ public class Zip3k {
      
      /**
      * @param filePath Path where the zipped files should be placed
