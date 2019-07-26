@@ -11,10 +11,7 @@ import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Zip3k {
 
@@ -40,8 +37,7 @@ public class Zip3k {
     }
 
     public static void zipFile(String filePath, File file, String password) throws ZipException {
-        ArrayList<File> files = new ArrayList<>();
-        zipFile(filePath, files, password);
+        zipFile(filePath, new ArrayList<>(Collections.singleton(file)), password);
     }
 
     /**
@@ -68,9 +64,9 @@ public class Zip3k {
     /**
      * @param sourceZipFilePath Path of the zip File to unzip
      * @param password          Password that will decrypt the source Zip file
-     * @return Hashmap, Key:String(FileName), Value:BufferedReader(Data used for Input/Output streams)
+     * @return HashMap, Key:String(FileName), Value:BufferedReader(Data used for Input/Output streams)
      */
-    public static Map<String, InputStream> getAllInputStreamsInSize(String sourceZipFilePath, String password) throws ZipException {
+    public static Map<String, InputStream> getAllZippedFiles(String sourceZipFilePath, String password) throws ZipException {
         Map<String, InputStream> readerMap = new HashMap<>();
         ZipFile zipFile = getZipFile(sourceZipFilePath, password);
         List<FileHeader> fileHeaderList = zipFile.getFileHeaders();
