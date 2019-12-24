@@ -16,14 +16,14 @@ import java.util.*;
 public class Zip3k {
 
     /**
-     * @param filePath Path where the zipped files should be placed
+     * @param zipFileName Path where the zipped files should be placed
      * @param password Password that will be used to encrypt the files
      * @param files    List of file objects to zip
      */
-    public static void zipFile(String filePath, List<File> files, String password) throws ZipException {
+    public static void zipFile(String zipFileName, List<File> files, String password) throws ZipException {
         final String EXTENSION = "zip";
         ZipParameters zipParameters = setZipParameters(password);
-        String baseFileName = new File(filePath).getName();
+        String baseFileName = new File(zipFileName).getName();
         String destinationZipFilePath = baseFileName + "." + EXTENSION;
 
         ZipFile zipFile = new ZipFile(destinationZipFilePath);
