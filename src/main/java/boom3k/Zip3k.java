@@ -36,8 +36,9 @@ public class Zip3k {
         });
     }
 
-    public static void zipFile(String filePath, File file, String password) throws ZipException {
-        zipFile(filePath, new ArrayList<>(Collections.singleton(file)), password);
+    public static void zipFile(File file, String password) throws ZipException {
+
+        zipFile(file.getPath(), new ArrayList<>(Collections.singleton(file)), password);
     }
 
     /**
