@@ -185,7 +185,7 @@ public class Zip3k {
     }
 
     public static void insertFileToZip(String sourceZipFilePath, File file, String password) throws ZipException {
-        getZipFile(sourceZipFilePath, password).addFile(file, new ZipParameters());
+        getZipFile(sourceZipFilePath, password).addFile(file, setZipParameters(password));
     }
 
     static ZipParameters setZipParameters(String password) {
