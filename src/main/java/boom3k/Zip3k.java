@@ -15,10 +15,12 @@ import java.util.*;
 
 public class Zip3k {
 
+    static final String EXTENSION = ".zip";
+
     /**
      * @param zipFileName Path where the zipped files should be placed
-     * @param password Password that will be used to encrypt the files
-     * @param files    List of file objects to zip
+     * @param password    Password that will be used to encrypt the files
+     * @param files       List of file objects to zip
      */
     public static void zipFile(String zipFileName, List<File> files, String password) throws ZipException {
         final String EXTENSION = "zip";
@@ -39,6 +41,10 @@ public class Zip3k {
     public static void zipFile(File file, String password) throws ZipException {
 
         zipFile(file.getPath(), new ArrayList<>(Collections.singleton(file)), password);
+    }
+
+    public static void getNestedFileFromZip(String zipFileName, String password, String targetFileName) {
+
     }
 
     /**
@@ -161,8 +167,7 @@ public class Zip3k {
      * @param password             Password that will decrypt the source Zip file
      */
     public static void unzipFile(String sourceZipFilePath, String extractedZipFilePath, String password) throws ZipException {
-        final String EXTENSION = "zip";
-        ZipFile zipFile = new ZipFile(sourceZipFilePath + "." + EXTENSION);
+        ZipFile zipFile = new ZipFile(sourceZipFilePath + EXTENSION);
 
         if (zipFile.isEncrypted()) {
             zipFile.setPassword(password);
@@ -171,12 +176,19 @@ public class Zip3k {
         zipFile.extractAll(extractedZipFilePath);
     }
 
-    public static void insertFileToZip(String sourceZipFilePath, File file, String password) throws ZipException {
-        ZipFile zipFile = getZipFile(sourceZipFilePath, password);
-        zipFile.addFile(file, setZipParameters(password));
+    public static void extractFileFromZip(String sourceZipFilePath, String fullFileName, String password, String extractedFilePath) throws ZipException {
+        ZipFile zipFile = new ZipFile(sourceZipFilePath + EXTENSION);
+        if (zipFile.isEncrypted()) {
+            zipFile.setPassword(password);
+        }
+        zipFile.extractFile(fullFileName, extractedFilePath);
     }
 
-    private static ZipParameters setZipParameters(String password) {
+    public static void insertFileToZip(String sourceZipFilePath, File file, String password) throws ZipException {
+        getZipFile(sourceZipFilePath, password).addFile(file, new ZipParameters());
+    }
+
+    static ZipParameters setZipParameters(String password) {
         ZipParameters zipParameters = new ZipParameters();
         zipParameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
         zipParameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_ULTRA);
@@ -184,7 +196,6 @@ public class Zip3k {
         zipParameters.setEncryptionMethod(Zip4jConstants.ENC_METHOD_AES);
         zipParameters.setAesKeyStrength(Zip4jConstants.AES_STRENGTH_256);
         zipParameters.setPassword(password);
-
         return zipParameters;
     }
 }
