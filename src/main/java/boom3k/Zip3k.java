@@ -184,8 +184,18 @@ public class Zip3k {
         zipFile.extractFile(fullFileName, extractedFilePath);
     }
 
-    public static void insertFileToZip(String sourceZipFilePath, File file, String password) throws ZipException {
-        getZipFile(sourceZipFilePath, password).addFile(file, setZipParameters(password));
+    public static void insertFileToZip(String targetZipFolderPath, File file, String password) throws ZipException {
+        getZipFile(targetZipFolderPath, password).addFile(file, setZipParameters(password));
+    }
+
+    public static void insertFilesToZip(String targetZipFolderPath, List<File> files, String password ){
+        files.forEach(file -> {
+            try {
+                insertFileToZip(targetZipFolderPath,file,password);
+            } catch (ZipException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     static ZipParameters setZipParameters(String password) {
