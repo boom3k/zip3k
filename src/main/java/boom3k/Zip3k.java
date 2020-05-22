@@ -22,7 +22,7 @@ public class Zip3k {
      * @param password    Password that will be used to encrypt the files
      * @param files       List of file objects to zip
      */
-    public static void zipFile(String zipFileName, List<File> files, String password) throws ZipException {
+    public static void zip(String zipFileName, List<File> files, String password) throws ZipException {
         final String EXTENSION = "zip";
         ZipParameters zipParameters = setZipParameters(password);
         String baseFileName = new File(zipFileName).getName();
@@ -38,13 +38,21 @@ public class Zip3k {
         });
     }
 
-    public static void zipFile(File file, String password) throws ZipException {
+    public static void zip(File file, String password) throws ZipException {
 
-        zipFile(file.getPath(), new ArrayList<>(Collections.singleton(file)), password);
+        zip(file.getPath(), new ArrayList<>(Collections.singleton(file)), password);
     }
 
-    public static void getNestedFileFromZip(String zipFileName, String password, String targetFileName) {
-
+    public static File getFileFromZip(String zipFileName, String password, String targetFileName) throws ZipException, IOException {
+        InputStream is = getInputStreamFromZip(zipFileName, targetFileName, password);
+        File file = new File("");
+        OutputStream os = new FileOutputStream(file);
+        int read;
+        byte[] bytes = new byte[1024];
+        while ((read = is.read(bytes)) != -1){
+            os.write(bytes,0,read);
+        }
+        return file;
     }
 
     /**
@@ -148,7 +156,7 @@ public class Zip3k {
      * @param sourceZipFilePath Path of the zip File to unzip
      * @param fileName          Name of the file to get data from
      * @param password          Password that will decrypt the source Zip file
-     * @return byte[]
+     * @return inputStream
      */
     public static InputStream getInputStreamFromZip(String sourceZipFilePath, String fileName, String password) throws ZipException {
         //Get the zip file
@@ -188,10 +196,10 @@ public class Zip3k {
         getZipFile(targetZipFolderPath, password).addFile(file, setZipParameters(password));
     }
 
-    public static void insertFilesToZip(String targetZipFolderPath, List<File> files, String password ){
+    public static void insertFilesToZip(String targetZipFolderPath, List<File> files, String password) {
         files.forEach(file -> {
             try {
-                insertFileToZip(targetZipFolderPath,file,password);
+                insertFileToZip(targetZipFolderPath, file, password);
             } catch (ZipException e) {
                 e.printStackTrace();
             }

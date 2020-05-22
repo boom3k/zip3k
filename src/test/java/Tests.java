@@ -33,5 +33,6 @@ public class Tests {
             JsonObject currentFile = (JsonObject) new JsonParser().parse(new InputStreamReader(inputStreamMap.get(key)));
             System.out.println(key + " contains:: " + currentFile);
         });
+
     }
 }
